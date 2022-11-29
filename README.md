@@ -18,7 +18,9 @@
 | 9 | [Create Entity Models](#create-entity-models)  |
 | 10 | [Setup DB connection on project](#setup-db-connection-on-project)  |
 | 11 | [Database Migration](#database-migration)  |
-| 12 | [Other Resources](https://github.com/muhamaddarulhadi/Training-RazorPage)  |
+| 12 | [Change caling](#change-calling)  |
+| 13 | [Test login](#test-login)  |
+| 14 | [Other Resources](https://github.com/muhamaddarulhadi/Training-RazorPage)  |
 
 
 </BR>
@@ -587,3 +589,103 @@ If there is prompt, you just need to insert Y and click enter.
 </BR>
 
 8. [Back to Menu](#identity)
+
+</BR>
+
+***
+#### Change Calling
+
+1. After migrations finished, don't run the project yet.
+2. We need to change the calling IdentityUser to ApplicationUser each of every file that consist of IdenitityUser inside folder Account because we created a custom Identity entity class.
+3. On your VS Code, click icon search 
+
+   > ![image](https://user-images.githubusercontent.com/47632993/204628707-702d8cb0-a2d6-4ab0-8b25-a3a27019d259.png)
+
+4. And put this word inside the input that the placeholder are ***Search***
+
+   ```C#
+   <IdentityUser>
+   ```
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204629109-b2a1b117-edb1-421b-840e-c1c420fa3569.png)
+
+5. As you can see, there's a lot of need to be changed.
+6. But, don't worry, you just need to put this word inside the input that the placeholder are ***Replace***
+
+   ```C#
+   <ApplicationUser>
+   ```
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204629579-9c8f1127-b7ff-4c7c-833b-1b507d6ddb7a.png)
+
+7. After that, you just click this icon.
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204629725-7ced0bd1-1b49-420e-83ec-38eee3b72fd1.png)
+
+8. Click the button Replace, and VS Code will do the replace part.
+
+   > ![image](https://user-images.githubusercontent.com/47632993/204630019-6c8ef8be-9d56-4e19-a3a9-177cb603db76.png)
+
+9. You will see all the file that have the word will be error, but dont worry, you just need to include this code on each and every file that has error.
+   
+   ```C#
+   using TrainingRazor.Models;
+   ```
+   
+   For example :
+   > ![image](https://user-images.githubusercontent.com/47632993/204630629-fbfb0c4c-daad-4c0c-bd0d-84d0b18aeeed.png)
+
+10. For file that have extension .cshtml , you need to put it like this :
+
+    ```C#
+    @using TrainingRazor.Models;
+    ```
+   
+    For example :
+    > ![image](https://user-images.githubusercontent.com/47632993/204631563-5ffbc597-cd9f-4b78-b6f8-81af1ef115f1.png)
+
+11. If you still got a file that have error, don't worry, you can do it like this
+   
+     For example, you have a situation like this
+     
+     > ![image](https://user-images.githubusercontent.com/47632993/204632089-3e8fc530-cbef-4930-af78-a49313f0f68f.png)
+      
+     You can just change the IdentityUser to ApplicationUser 
+     
+     The Solution (No more errors because we change the variable declaration of IdentityUser to ApplicationUser) :
+     
+     ![image](https://user-images.githubusercontent.com/47632993/204632230-ef61c815-7dcf-4c8c-91a1-d57f6356be8c.png)
+     
+     </BR>
+
+     Another example if you have a situation like this
+     
+     > ![image](https://user-images.githubusercontent.com/47632993/204633687-9542617e-9e10-4e42-a07b-56591c00af4a.png)
+
+
+     Just change IdentityUser to ApplicationUser like this
+     
+     > ![image](https://user-images.githubusercontent.com/47632993/204633931-a5614a6a-2c63-44c2-a3f4-68a11c3c7159.png)
+
+
+12. [Back to Menu](#identity)
+
+</BR>
+
+***
+#### Test login
+
+1. After finished everything, run this project by click F5 or click Run > Start Debugging
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204634746-ab622a2a-2c4b-4db8-ab0f-6a5b877e0e5e.png)
+
+2. Your project will run on your browser
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204634990-e58e727a-5170-4f8b-94fb-f550e9304b64.png)
+
+3. Insert your credentials ***(Login Email and Username that you set on migrations)*** and click the "Log in" button
+4. When you succeed to login, you will be brought to this page.
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204635666-ec28e970-32cc-4499-bdcc-03675b0ec6ea.png)
+
+5. [Back to Menu](#identity)
