@@ -1,6 +1,8 @@
 ## Identity
 
 - On this project, we gonna use Code First Process. What is [Code First](https://www.entityframeworktutorial.net/code-first/what-is-code-first.aspx#:~:text=Code%2DFirst%20is%20mainly%20useful,which%20match%20your%20database%20design.)? In a simple term, we create a project with entity model, and the Entity Framework API will create the database based on your entity classes and configuration when we do a Migrations.
+- Source code inside this repository is a completed source code of what you gonna do.
+- You can refer this source code when you develop your project.
 - What is [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-5.0&tabs=visual-studio)?
 - What is [Migrations](https://www.entityframeworktutorial.net/efcore/cli-commands-for-ef-core-migration.aspx)?
 
