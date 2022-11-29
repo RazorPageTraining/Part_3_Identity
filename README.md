@@ -9,15 +9,39 @@
 | ----------- | ----------- |
 | 1 | [Introduction](https://github.com/RazorPageTraining/Part_1_Introduction) |
 | 2 | [Installation](https://github.com/RazorPageTraining/Part_2_Installation) |
-| 3 | [How to create RazorPage project](#how-to-create-razorpage-project) |
-| 4 | [Packages](#packages)  |
-| 5 | [Create Database](#create-database)  |
-| 6 | [Create Identity](#create-identity)  |
-| 7 | [Create Entity Models](#create-entity-models)  |
-| 8 | [Setup DB connection on project](#setup-db-connection-on-project)  |
-| 9 | [Database Migration](#database-migration)  |
+| 3 | [Net 5 CRUD](https://github.com/muhamaddarulhadi/RazorPage) |
+| 4 | [How to run this project](#how-to-run-this-project) |
+| 5 | [How to create RazorPage project](#how-to-create-razorpage-project) |
+| 6 | [Packages](#packages)  |
+| 7 | [Create Database](#create-database)  |
+| 8 | [Create Identity](#create-identity)  |
+| 9 | [Create Entity Models](#create-entity-models)  |
+| 10 | [Setup DB connection on project](#setup-db-connection-on-project)  |
+| 11 | [Database Migration](#database-migration)  |
+| 12 | [Other Resources](https://github.com/muhamaddarulhadi/Training-RazorPage)  |
 
 
+</BR>
+
+***
+
+#### How to run this project
+
+1. Download this project and open your terminal or VS Code.
+2. On your terminal type this command, but first you need to make sure you know where your project folder is. For my case, I put it on my desktop
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/146669384-e9b4b021-077d-4de5-acc3-e8aced9863b2.png)
+    
+   ```console 
+   code -r TrainingRazor
+   ``` 
+   > ![image](https://user-images.githubusercontent.com/47632993/204572344-4005b6a9-2cdc-468c-804a-6338a70b0972.png)
+
+3. "TrainingRazor" name on this command is the folder name of the project. The name is depends on you.
+4. System will open the project on your Code Editor.
+5. Other than that, by using VS Code, you can just drag project folder on VS Code and and trust the author.     
+6. If VS Code authorize you to insert some assets, just click ***Yes/Accept***    
+7. [Back to Menu](#identity)
 </BR>
 
 ***
@@ -104,7 +128,7 @@
 12. [Back to Menu](#identity)
 
 ***
-### Packages
+#### Packages
 
 1. For this project we gonna use 2 package that we need to install. On your terminal inside VS Code, you need to type this commands and click enter or just copy & paste :
 
@@ -133,7 +157,7 @@
 6. [Back to menu](#identity)
 
 ***
-## Create Database
+#### Create Database
 
 1. Before we start to code, you need to create a database (DB).
 2. You just need to create DB using SSMS that we install earlier.
@@ -147,7 +171,7 @@
 5. [Back to Menu](#identity)
 
 ***
-## Create Identity
+#### Create Identity
 
 1. If your project already run, stop the project first by click the stop button :
 
@@ -260,7 +284,7 @@
 10. [Back to menu](#identity)
 
 ***
-## Create Entity Models
+#### Create Entity Models
 
 1. Create new folder inside TrainingRazor folder :
 
@@ -330,7 +354,7 @@
 7. [Back to menu](#identity)
 
 ***
-## Setup DB Connection On Project
+#### Setup DB Connection On Project
 
 1. We gonna use local db server that we installed before.
 2. On your project, open appsettings.json file and insert this ***(If your server name have slash " \ " , you need to insert double slash like this  " \\ " )***:
@@ -349,7 +373,7 @@
 </BR>
 
 ***
-## Database Migration
+#### Database Migration
 
 1. Before we create identity schema, we need to edit ApplicationDbContext.cs. This is what we call Code First and Not DB First
 2. Open ApplicationDbContext.cs inside Data folder, and paste this source code :
@@ -393,6 +417,8 @@
    public DbSet<Product> Products { get; set; }
    ```
    
+   >![image](https://user-images.githubusercontent.com/47632993/204623373-b05bdf07-f032-4f54-90f5-f52c6db24453.png)
+
    </BR>
    
    Paste this code like this. ***Call method***
@@ -550,7 +576,7 @@ NOTE :
 
 To drop database :
 
-(IT IS RECOMMENDED THAT YOU CREATE IDENTITY BEFORE CREATE OTHER DATABASE TABLE BECAUSE ONCE YOU USE THIS COMMAND, YOUR DATABASE WILL BE DELETED. ONLY USE THIS CODE ON ***DEVELOPMENT ENVIRONMENT*** AND NOT ***PRODUCTION ENVIRONMENT***)
+IT IS RECOMMENDED THAT YOU CREATE IDENTITY BEFORE CREATE OTHER DATABASE TABLE BECAUSE ONCE YOU USE THIS COMMAND, YOUR DATABASE WILL BE DELETED. ONLY USE THIS CODE ON ***DEVELOPMENT ENVIRONMENT*** AND NOT ***PRODUCTION ENVIRONMENT***
 
    ```console
    dotnet ef database drop
