@@ -151,11 +151,11 @@
 
 4. You can find the package on search bar (Skip this if you already succeed):
 
-  > ![image](https://user-images.githubusercontent.com/47632993/204578644-1835b999-3ca7-46b7-bb59-ca4014ba27b7.png)
+   > ![image](https://user-images.githubusercontent.com/47632993/204578644-1835b999-3ca7-46b7-bb59-ca4014ba27b7.png)
 
 5. Always click on the first link and you can view all the package version.
 
-  > ![image](https://user-images.githubusercontent.com/47632993/204579322-54647c59-a000-421b-8b54-e85fbee5a830.png)  
+   > ![image](https://user-images.githubusercontent.com/47632993/204579322-54647c59-a000-421b-8b54-e85fbee5a830.png)  
 
 6. [Back to menu](#identity)
 
@@ -526,7 +526,7 @@
    Paste this code below SeedUsers class method (NOT INSIDE). ***Method to create product***
    ```C#
    private void SeedProducts(ModelBuilder builder)  
-    {
+   {
         builder.Entity<Product>().HasData( 
                 new Product() { Id = 1, Name = "Logitech MX Mouse", Price = 345.12M },
                 new Product() { Id = 2, Name = "Keycron Keyboard", Price = 295.23M },
@@ -534,7 +534,7 @@
                 new Product() { Id = 4, Name = "Iphone 14 Pro Max", Price = 8798.12M },
                 new Product() { Id = 5, Name = "Xiaomi Ear Buds", Price = 45.46M }
             );
-    }
+   }
    ```
 
 3. Delete all cs file inside Migrations folder.
