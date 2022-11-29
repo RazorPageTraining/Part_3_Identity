@@ -13,6 +13,10 @@
 | 4 | [Packages](#packages)  |
 | 5 | [Create Database](#create-database)  |
 | 6 | [Create Identity](#create-identity)  |
+| 7 | [Create Entity Models](#create-entity-models)  |
+| 8 | [Setup DB connection on project](#setup-db-connection-on-project)  |
+| 9 | [Database Migration](#database-migration)  |
+
 
 </BR>
 
@@ -98,7 +102,6 @@
 11. Select Yes if you agree to trust the development certificate.
 
 12. [Back to Menu](#identity)
-</BR>
 
 ***
 ### Packages
@@ -142,7 +145,6 @@
    > ![image](https://user-images.githubusercontent.com/47632993/204594174-6bb8fd43-56c6-4b60-8f99-f9212fa67642.png)
 
 5. [Back to Menu](#identity)
-</BR>
 
 ***
 ## Create Identity
@@ -278,9 +280,186 @@
 
 5. A new file will be created inside Models folder :
 
-  > ![image](https://user-images.githubusercontent.com/47632993/204594940-ea582835-68ea-42da-b647-4a3764f38e76.png)
+   > ![image](https://user-images.githubusercontent.com/47632993/204594940-ea582835-68ea-42da-b647-4a3764f38e76.png)
+
+6. Copy this code and paste inside the file Table.cs ***(Overwrite all code inside)*** and save it.
 
 
+   ```C#
+   using System.ComponentModel.DataAnnotations;
+   using System.ComponentModel.DataAnnotations.Schema;
 
-10. [Back to menu](#identity)
+   using Microsoft.AspNetCore.Identity;
+
+   namespace TrainingRazor.Models
+   {
+       public class Customer : IdentityUser
+       {
+           [StringLength(500)]
+           public string Name { get; set; }
+       }
+
+       public class CustPurchased
+       {
+           [Key]
+           public int Id { get; set; }
+
+           [ForeignKey("Customer")]
+           public Customer Creator { get; set; }
+
+           [ForeignKey("Product")]
+           public int? ProductId { get; set; }
+           public int? Quantity { get; set; }
+           public Product Product { get; set; }
+       }
+
+       public class Product
+       {
+           [Key]
+           public int ProductId { get; set; }
+
+           [StringLength(500)]
+           public string ProductName { get; set; }
+
+           [Column(TypeName = "decimal(18, 2)")]
+           public decimal Price { get; set; }
+       }
+   }
+   ```
+
+7. [Back to menu](#identity)
+
+***
+## Setup DB Connection On Project
+
+1. On your project, open appsettings.json file and insert this ***(If your server name have slash " \ " , you need to insert double slash like this  " \\ " )***:
+
+   ```JSON        
+   "ConnectionStrings": {
+       "DefaultConnection": "Server=YOUR_SERVER_NAME; Database=YOUR_DB_NAME; Trusted_Connection=True; MultipleActiveResultSets=True;"
+    }
+   ```    
+    
+   > ![image](https://user-images.githubusercontent.com/47632993/204600700-29dc36f6-0748-4ed5-ae83-39058cc62b21.png)
+
+2. Save the file.
+
+3. [Back to Menu](#identity)
+</BR>
+
+***
+## Database Migration
+
+1. Before we create identity schema, we need to edit ApplicationDbContext.cs
+2. Open ApplicationDbContext.cs inside Data folder, and paste this source code :
+
+   ```C#
+   using System;
+   using Microsoft.AspNetCore.Identity;
+   ```
+
+   > 
    
+   </BR>
+
+   ```C#
+   private ApplicationUser saUser { get; set; }
+   private IdentityRole role1 { get; set; }
+   private IdentityRole role2 { get; set;}
+   private IdentityUserRole<string> userAdmin { get; set; }
+   private PasswordHasher<ApplicationUser> passwordHasher { get; set; }
+   ```
+   
+   Paste this code inside OnModelCreating method
+   ```C#
+   base.OnModelCreating(modelBuilder);
+   this.SeedUsers(modelBuilder);
+   ```
+   
+   Paste this code below OnModelCreating method (NOT INSIDE)
+   ```C#
+   private void SeedUsers(ModelBuilder builder)  
+   {
+      string saUsername = "YOUR EMAIL";
+      var curDate = DateTime.Now;
+
+
+      //YOU CAN ADD MORE ROLE AS YOU WANT
+      role1 = new IdentityRole() 
+      { 
+          Id = Guid.NewGuid().ToString(), 
+          Name = "SystemAdmin", 
+          ConcurrencyStamp = Guid.NewGuid().ToString(), 
+          NormalizedName = "SYSTEMADMIN" 
+      };
+
+      role2 = new IdentityRole() 
+      { 
+          Id = Guid.NewGuid().ToString(), 
+          Name = "User", 
+          ConcurrencyStamp = Guid.NewGuid().ToString(), 
+          NormalizedName = "USER" 
+      };
+
+      //ADD USER ADMIN
+      saUser = new ApplicationUser()  
+      {  
+          Id = Guid.NewGuid().ToString(),
+          UserName = saUsername,  
+          Email = saUsername,
+          NormalizedEmail = saUsername.ToUpper(),
+          NormalizedUserName = saUsername.ToUpper(),
+          FullName = "System Admin",
+          LockoutEnabled = false,  
+          ConcurrencyStamp = Guid.NewGuid().ToString(),
+          EmailConfirmed = true,
+          IsEnabled = true,
+          CreatedDate = curDate,
+          ModifiedDate = curDate
+      };
+      
+      passwordHasher = new PasswordHasher<ApplicationUser>(); 
+      var saPwdHashed = passwordHasher.HashPassword(saUser, "YOUR PASSWORD");  
+      saUser.PasswordHash = saPwdHashed;
+
+    
+      userAdmin = new IdentityUserRole<string>() 
+      { 
+          RoleId = role1.Id,
+          UserId = saUser.Id
+      };
+
+
+      //BUT MAKE SURE ADD THE ROLE INSIDE IDENTITY ROLE LIEK THIS IF YOU WANT TO ADD MORE ROLE
+      builder.Entity<IdentityRole>().HasData(role1);
+      builder.Entity<IdentityRole>().HasData(role2);
+      builder.Entity<ApplicationUser>().HasData(saUser);  
+      builder.Entity<IdentityUserRole<string>>().HasData(userAdmin);
+   } 
+   ```
+
+3. Now, we gonna create migration schema. You need to type this command on your terminal and click enter :
+   
+   ```console
+   dotnet ef migrations add CreateScheme
+   ```
+4. After the command has finished, you can see that a new folder has been created called Migrations
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/148335992-f4301b00-ffb7-49c2-bf38-3596615fd149.png)
+
+5. Then we gonna use this command to drop our database first (IT IS RECOMMENDED THAT YOU CREATE IDENTITY BEFORE CREATE OTHER DATABASE TABLE BECAUSE ONCE YOU USE THIS COMMAND, YOUR DATABASE WILL BE DELETED. ONLY USE THIS CODE ON ***DEVELOPMENT ENVIRONMENT*** AND NOT ***PRODUCTION ENVIRONMENT***)
+
+   ```console
+   dotnet ef database drop
+   ```
+   
+   If there is prompt, you just need to insert Y and click enter.
+   
+6. You can see that your database has been dropped/deleted
+7. After that, we gonna use this command for create back all the table :
+
+   ```console
+   dotnet ef database update
+   ```
+   
+8. You can see that your database has been created back
