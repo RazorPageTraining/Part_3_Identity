@@ -18,7 +18,7 @@
 | 9 | [Create Entity Models](#create-entity-models)  |
 | 10 | [Setup DB connection on project](#setup-db-connection-on-project)  |
 | 11 | [Database Migration](#database-migration)  |
-| 12 | [Change caling](#change-calling)  |
+| 12 | [Change calling](#change-calling)  |
 | 13 | [Test login](#test-login)  |
 | 14 | [Other Resources](https://github.com/muhamaddarulhadi/Training-RazorPage)  |
 
