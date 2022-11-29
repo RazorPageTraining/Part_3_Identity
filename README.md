@@ -293,7 +293,7 @@
 
    namespace TrainingRazor.Models
    {
-       public class Customer : IdentityUser
+       public class ApplicationUser : IdentityUser
        {
            [StringLength(500)]
            public string Name { get; set; }
@@ -304,8 +304,8 @@
            [Key]
            public int Id { get; set; }
 
-           [ForeignKey("Customer")]
-           public Customer Creator { get; set; }
+           [ForeignKey("ApplicationUser")]
+           public ApplicationUser Creator { get; set; }
 
            [ForeignKey("Product")]
            public int? ProductId { get; set; }
@@ -316,10 +316,10 @@
        public class Product
        {
            [Key]
-           public int ProductId { get; set; }
+           public int Id { get; set; }
 
            [StringLength(500)]
-           public string ProductName { get; set; }
+           public string Name { get; set; }
 
            [Column(TypeName = "decimal(18, 2)")]
            public decimal Price { get; set; }
@@ -332,7 +332,8 @@
 ***
 ## Setup DB Connection On Project
 
-1. On your project, open appsettings.json file and insert this ***(If your server name have slash " \ " , you need to insert double slash like this  " \\ " )***:
+1. We gonna use local db server that we installed before.
+2. On your project, open appsettings.json file and insert this ***(If your server name have slash " \ " , you need to insert double slash like this  " \\ " )***:
 
    ```JSON        
    "ConnectionStrings": {
@@ -342,124 +343,221 @@
     
    > ![image](https://user-images.githubusercontent.com/47632993/204600700-29dc36f6-0748-4ed5-ae83-39058cc62b21.png)
 
-2. Save the file.
+3. Save the file.
 
-3. [Back to Menu](#identity)
+4. [Back to Menu](#identity)
 </BR>
 
 ***
 ## Database Migration
 
-1. Before we create identity schema, we need to edit ApplicationDbContext.cs
+1. Before we create identity schema, we need to edit ApplicationDbContext.cs. This is what we call Code First and Not DB First
 2. Open ApplicationDbContext.cs inside Data folder, and paste this source code :
-
+   
+   Insert this. ***Include Package***:
+   
    ```C#
    using System;
    using Microsoft.AspNetCore.Identity;
+   using TrainingRazor.Models;
    ```
 
-   > 
-   
-   </BR>
+   > ![image](https://user-images.githubusercontent.com/47632993/204602829-3c901ce2-e8c3-409d-877e-054eb8da5a2f.png)
 
+   </BR>
+   
+   Edit this :
+   > ![image](https://user-images.githubusercontent.com/47632993/204606138-75c0e4b2-5497-409a-be29-51aabc94edd5.png)
+
+   </BR>
+   
+   Insert this. ***Declare variable***:
+   
    ```C#
-   private ApplicationUser saUser { get; set; }
+   private ApplicationUser saUserAdmin { get; set; }
+   private ApplicationUser saUserCustomer { get; set; }
    private IdentityRole role1 { get; set; }
    private IdentityRole role2 { get; set;}
    private IdentityUserRole<string> userAdmin { get; set; }
+   private IdentityUserRole<string> userCustomer { get; set; }
    private PasswordHasher<ApplicationUser> passwordHasher { get; set; }
    ```
    
-   Paste this code inside OnModelCreating method
+   > ![image](https://user-images.githubusercontent.com/47632993/204606608-fe246d34-7fa7-40e9-806b-37812e2c02cb.png)
+   
+   </BR>
+   
+   Insert this. ***Call Data from Database***
    ```C#
-   base.OnModelCreating(modelBuilder);
-   this.SeedUsers(modelBuilder);
+   public DbSet<CustPurchased> CustPurchaseds { get; set; }
+   public DbSet<Product> Products { get; set; }
    ```
    
-   Paste this code below OnModelCreating method (NOT INSIDE)
+   </BR>
+   
+   Paste this code like this. ***Call method***
+   ```C#
+   protected override void OnModelCreating(ModelBuilder builder)  
+   {  
+       base.OnModelCreating(builder);
+       this.SeedUsers(builder);
+       this.SeedProducts(builder);
+   }  
+   ```
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204606727-6e5b7d59-3b62-4011-928c-7e05e0d67eeb.png)
+
+   </BR>
+   
+   Paste this code below OnModelCreating method (NOT INSIDE). ***Method to create user.*** This is just to show to create user by using Code First concept. You Can add user by Page or Registration, but, I just want to show Migrations process.
    ```C#
    private void SeedUsers(ModelBuilder builder)  
    {
-      string saUsername = "YOUR EMAIL";
-      var curDate = DateTime.Now;
+        string saUsernameAdmin = "YOUR EMAIL";
+        string saUsernameCustomer = "YOUR EMAIL";
+
+        //YOU CAN ADD MORE ROLE AS YOU WANT
+        role1 = new IdentityRole() 
+        { 
+            Id = Guid.NewGuid().ToString(), 
+            Name = "SystemAdmin", 
+            ConcurrencyStamp = Guid.NewGuid().ToString(), 
+            NormalizedName = "SYSTEMADMIN" 
+        };
+
+        role2 = new IdentityRole() 
+        { 
+            Id = Guid.NewGuid().ToString(), 
+            Name = "Customer", 
+            ConcurrencyStamp = Guid.NewGuid().ToString(), 
+            NormalizedName = "CUSTOMER" 
+        };
+
+        //ADD USER ADMIN
+        saUserAdmin = new ApplicationUser()  
+        {  
+            Id = Guid.NewGuid().ToString(),
+            UserName = saUsernameAdmin,  
+            Email = saUsernameAdmin,
+            NormalizedEmail = saUsernameAdmin.ToUpper(),
+            NormalizedUserName = saUsernameAdmin.ToUpper(),
+            Name = "System Admin",
+            LockoutEnabled = false,  
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            EmailConfirmed = true,
+        };
+
+        //ADD USER CUSTOMER
+        saUserCustomer = new ApplicationUser()  
+        {  
+            Id = Guid.NewGuid().ToString(),
+            UserName = saUsernameCustomer,  
+            Email = saUsernameCustomer,
+            NormalizedEmail = saUsernameCustomer.ToUpper(),
+            NormalizedUserName = saUsernameCustomer.ToUpper(),
+            Name = "Customer 1",
+            LockoutEnabled = false,  
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            EmailConfirmed = true,
+        };
+        
+        passwordHasher = new PasswordHasher<ApplicationUser>(); 
+
+        var saPwdHashed1 = passwordHasher.HashPassword(saUserAdmin, "YOUR PASSWORD");  
+        saUserAdmin.PasswordHash = saPwdHashed1;
+
+        var saPwdHashed2 = passwordHasher.HashPassword(saUserCustomer, "YOUR PASSWORD");  
+        saUserCustomer.PasswordHash = saPwdHashed2;
+        
+        userAdmin = new IdentityUserRole<string>() 
+        { 
+            RoleId = role1.Id,
+            UserId = saUserAdmin.Id
+        };
+
+        userCustomer = new IdentityUserRole<string>() 
+        { 
+            RoleId = role1.Id,
+            UserId = saUserCustomer.Id
+        };
 
 
-      //YOU CAN ADD MORE ROLE AS YOU WANT
-      role1 = new IdentityRole() 
-      { 
-          Id = Guid.NewGuid().ToString(), 
-          Name = "SystemAdmin", 
-          ConcurrencyStamp = Guid.NewGuid().ToString(), 
-          NormalizedName = "SYSTEMADMIN" 
-      };
-
-      role2 = new IdentityRole() 
-      { 
-          Id = Guid.NewGuid().ToString(), 
-          Name = "User", 
-          ConcurrencyStamp = Guid.NewGuid().ToString(), 
-          NormalizedName = "USER" 
-      };
-
-      //ADD USER ADMIN
-      saUser = new ApplicationUser()  
-      {  
-          Id = Guid.NewGuid().ToString(),
-          UserName = saUsername,  
-          Email = saUsername,
-          NormalizedEmail = saUsername.ToUpper(),
-          NormalizedUserName = saUsername.ToUpper(),
-          FullName = "System Admin",
-          LockoutEnabled = false,  
-          ConcurrencyStamp = Guid.NewGuid().ToString(),
-          EmailConfirmed = true,
-          IsEnabled = true,
-          CreatedDate = curDate,
-          ModifiedDate = curDate
-      };
-      
-      passwordHasher = new PasswordHasher<ApplicationUser>(); 
-      var saPwdHashed = passwordHasher.HashPassword(saUser, "YOUR PASSWORD");  
-      saUser.PasswordHash = saPwdHashed;
-
-    
-      userAdmin = new IdentityUserRole<string>() 
-      { 
-          RoleId = role1.Id,
-          UserId = saUser.Id
-      };
-
-
-      //BUT MAKE SURE ADD THE ROLE INSIDE IDENTITY ROLE LIEK THIS IF YOU WANT TO ADD MORE ROLE
-      builder.Entity<IdentityRole>().HasData(role1);
-      builder.Entity<IdentityRole>().HasData(role2);
-      builder.Entity<ApplicationUser>().HasData(saUser);  
-      builder.Entity<IdentityUserRole<string>>().HasData(userAdmin);
+        //BUT MAKE SURE ADD THE ROLE INSIDE IDENTITY ROLE LIKE THIS IF YOU WANT TO ADD MORE ROLE
+        builder.Entity<IdentityRole>().HasData(role1);
+        builder.Entity<IdentityRole>().HasData(role2);
+        builder.Entity<ApplicationUser>().HasData(saUserAdmin);
+        builder.Entity<ApplicationUser>().HasData(saUserCustomer);  
+        builder.Entity<IdentityUserRole<string>>().HasData(userAdmin);
+        builder.Entity<IdentityUserRole<string>>().HasData(userCustomer);
    } 
    ```
+   
+   </BR>
+   
+   Paste this code below SeedUsers class method (NOT INSIDE). ***Method to create product***
+   ```C#
+   private void SeedProducts(ModelBuilder builder)  
+    {
+        builder.Entity<Product>().HasData( 
+                new Product() { Id = 1, Name = "Logitech MX Mouse", Price = 345.12M },
+                new Product() { Id = 2, Name = "Keycron Keyboard", Price = 295.23M },
+                new Product() { Id = 3, Name = "Razer Lapotop", Price = 7345.69M },
+                new Product() { Id = 4, Name = "Iphone 14 Pro Max", Price = 8798.12M },
+                new Product() { Id = 5, Name = "Xiaomi Ear Buds", Price = 45.46M }
+            );
+    }
+   ```
 
-3. Now, we gonna create migration schema. You need to type this command on your terminal and click enter :
+3. Delete all cs file inside Migrations folder.
+
+4. Now, we gonna create migration schema. You need to type this command on your terminal and click enter :
    
    ```console
    dotnet ef migrations add CreateScheme
    ```
-4. After the command has finished, you can see that a new folder has been created called Migrations
    
-   > ![image](https://user-images.githubusercontent.com/47632993/148335992-f4301b00-ffb7-49c2-bf38-3596615fd149.png)
+   > ![image](https://user-images.githubusercontent.com/47632993/204614790-218166ed-16a7-48d8-8d24-8769949b77e8.png)
 
-5. Then we gonna use this command to drop our database first (IT IS RECOMMENDED THAT YOU CREATE IDENTITY BEFORE CREATE OTHER DATABASE TABLE BECAUSE ONCE YOU USE THIS COMMAND, YOUR DATABASE WILL BE DELETED. ONLY USE THIS CODE ON ***DEVELOPMENT ENVIRONMENT*** AND NOT ***PRODUCTION ENVIRONMENT***)
+   
+5. After the command has finished, you can see that a new file called CreateScheme created inside the Migrations folder
+   
+   > ![image](https://user-images.githubusercontent.com/47632993/204617810-81c8f735-8221-4ce4-9879-b52dd8f9d2bd.png)
+   
+   It's okay if you have Multiple Migrations folder, but you can also cut the migrations file scheme with cs extension and paste into Migrations folder inside Data folder and delete the Migrations folder outside Data folder if you finished cut and paste.
 
-   ```console
-   dotnet ef database drop
-   ```
-   
-   If there is prompt, you just need to insert Y and click enter.
-   
-6. You can see that your database has been dropped/deleted
-7. After that, we gonna use this command for create back all the table :
+6. After that, we gonna use this command for migrate Models that we created inside database :
 
    ```console
    dotnet ef database update
    ```
    
-8. You can see that your database has been created back
+   > ![image](https://user-images.githubusercontent.com/47632993/204620690-f59b084f-689e-40da-90f8-45646cd404ea.png)
+   
+7. You can see that your database has been update.
+   
+   Before :
+   > ![image](https://user-images.githubusercontent.com/47632993/204615739-b32339ab-26f2-456b-b7e8-d273d0c5c2eb.png)
+
+   </BR>
+   
+   After :
+   > ![image](https://user-images.githubusercontent.com/47632993/204620747-e92c0b45-c1e7-41b2-a30b-765f749f1b85.png)
+   > ![image](https://user-images.githubusercontent.com/47632993/204620813-3741e2e5-220f-44b0-be5a-6313da5deb90.png)
+
+</BR>
+
+NOTE :
+
+To drop database :
+
+(IT IS RECOMMENDED THAT YOU CREATE IDENTITY BEFORE CREATE OTHER DATABASE TABLE BECAUSE ONCE YOU USE THIS COMMAND, YOUR DATABASE WILL BE DELETED. ONLY USE THIS CODE ON ***DEVELOPMENT ENVIRONMENT*** AND NOT ***PRODUCTION ENVIRONMENT***)
+
+   ```console
+   dotnet ef database drop
+   ```
+   
+If there is prompt, you just need to insert Y and click enter.
+
+</BR>
+
+8. [Back to Menu](#identity)
