@@ -291,7 +291,7 @@
 ***
 #### Create Entity Models
 
-1. Create new folder inside TrainingRazor folder :
+1. Create new folder inside TrainingRazor folder called ***Models*** :
 
    > ![image](https://user-images.githubusercontent.com/47632993/204591881-9975671c-6b96-4ba3-a89e-07f5c912844a.png)
    
