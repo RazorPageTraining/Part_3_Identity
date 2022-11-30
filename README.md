@@ -251,7 +251,7 @@
     .AddDefaultTokenProviders();
    ```   
 
-8. Edit this (Set Web App  startup folder ***(Need to Login before accessing inside Page)***) :
+8. Edit this (Set Web App  startup folder ***(Need to Login before accessing inside Page)***) ***(REPLACE CODE)*** :
 
    FROM :
    > ![image](https://user-images.githubusercontent.com/47632993/204588448-97298102-5e9e-488b-be9d-2527f8429553.png)
