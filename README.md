@@ -219,7 +219,7 @@
    ``` 
    > ![image](https://user-images.githubusercontent.com/47632993/204583178-bdd6a78c-a334-4a2a-9d27-65d29b19f2ff.png)
 
-6. Edit UseSqlite to UseSqlServer (We gonna use Sql Express ***(Local Database Server for Development)*** for Database)
+6. Edit UseSqlite to UseSqlServer ***(REPLACE CODE)*** (We gonna use Sql Express ***(Local Database Server for Development)*** for Database)
 
    FROM :
    > ![image](https://user-images.githubusercontent.com/47632993/204585562-edddcd49-db24-40ff-badc-55e333949d40.png)
@@ -229,7 +229,7 @@
    TO :
    > ![image](https://user-images.githubusercontent.com/47632993/204585798-2b1a5074-e593-4bb5-b57b-1c7231a72b6b.png)
     
-7. Edit this (Login preferences):
+7. Edit this (Login preferences) ***(REPLACE CODE)*** :
 
    FROM :
    > ![image](https://user-images.githubusercontent.com/47632993/204586349-7b8ed0bb-b31e-4ad3-b430-37725a231d3b.png)
