@@ -12,7 +12,7 @@
 | ----------- | ----------- |
 | 1 | [Introduction](https://github.com/RazorPageTraining/Part_1_Introduction) |
 | 2 | [Installation](https://github.com/RazorPageTraining/Part_2_Installation) |
-| 3 | [Net 5 CRUD](https://github.com/muhamaddarulhadi/RazorPage) |
+| 3 | [Net 5 CRUD](https://github.com/muhamaddarulhadi/RazorPage) ***(Example ONLY)***|
 | 4 | [How to run this project](#how-to-run-this-project) |
 | 5 | [How to create RazorPage project](#how-to-create-razorpage-project) |
 | 6 | [Packages](#packages)  |
