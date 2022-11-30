@@ -52,7 +52,7 @@
 ***
 #### How to create RazorPage project
 
-1. Open your install VS Code and open VS Code terminal or any terminal that you have.
+1. Open your installed VS Code and open VS Code terminal or any terminal that you have.
 2. Change to the directory (cd) which will contain the project.
    
    ```console 
