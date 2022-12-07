@@ -508,7 +508,7 @@
 
         userCustomer = new IdentityUserRole<string>() 
         { 
-            RoleId = role1.Id,
+            RoleId = role2.Id,
             UserId = saUserCustomer.Id
         };
 
