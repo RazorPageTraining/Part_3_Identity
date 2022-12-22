@@ -24,6 +24,7 @@
 | 12 | [Change calling](#change-calling)  |
 | 13 | [Test login](#test-login)  |
 | 14 | [Other Resources](https://github.com/muhamaddarulhadi/Training-RazorPage)  |
+| 15 | [References](#references) |
 
 
 </BR>
@@ -691,4 +692,15 @@ If there is prompt, you just need to insert Y and click enter.
    
    > ![image](https://user-images.githubusercontent.com/47632993/204635666-ec28e970-32cc-4499-bdcc-03675b0ec6ea.png)
 
+5. [Back to Menu](#identity)
+
+</BR>
+
+***
+#### References
+
+1. [https://www.tektutorialshub.com/asp-net-core/asp-net-core-identity-tutorial/](https://www.tektutorialshub.com/asp-net-core/asp-net-core-identity-tutorial/)
+2. [https://blog.francium.tech/asp-net-core-basic-authentication-authorization-in-razor-pages-with-postgresql-b1f2888b21d0](https://blog.francium.tech/asp-net-core-basic-authentication-authorization-in-razor-pages-with-postgresql-b1f2888b21d0)
+3. [https://www.learnrazorpages.com/identity/customising-identity](https://www.learnrazorpages.com/identity/customising-identity)
+4. [https://www.learnrazorpages.com/identity](https://www.learnrazorpages.com/identity)
 5. [Back to Menu](#identity)
